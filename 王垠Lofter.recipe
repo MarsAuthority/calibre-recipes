@@ -1,0 +1,29 @@
+import re, urlparse, itertools
+from calibre.ebooks.BeautifulSoup import NavigableString, Tag
+from datetime import date, timedelta
+
+class WangyinLofter(BasicNewsRecipe):
+	title = u'王垠博客'
+	description = u'这里是王垠发表的历史文章的一个私人备份。所有文章都属于王垠版权所有，放在这里仅仅是为了自己查看方便，因为原始文章会lost in future。 '
+
+	url_prefix = 'http://yinwang0.lofter.com'
+	no_stylesheets = True
+
+	def get_title(self, link):
+		return link.contents[1].string
+
+	def parse_index(self):
+		soup = self.index_to_soup('http://yinwang0.lofter.com/view')
+
+		result_set = soup.find_all("li",{"class":"text"})
+		articles = []
+		for link in result_set.find_all("a",target="_blank"):
+
+			title = get_title(link)
+			title = title.encode("utf-8")
+
+			url = url_prefix+link["href"]
+			a = {'title': title , 'url':url}
+			articles.append(a)
+
+		ans = [(title,articles)]
