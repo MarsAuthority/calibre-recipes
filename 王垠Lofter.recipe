@@ -26,4 +26,5 @@ class WangyinLofter(BasicNewsRecipe):
 			a = {'title': title , 'url':url}
 			articles.append(a)
 
-		ans = [(title,articles)]
+		ans = [(self.title,articles)]
+		return ans
